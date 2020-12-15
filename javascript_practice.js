@@ -240,3 +240,6 @@ var reaarange=(arr)=>{
 
 }
 console.log(reaarange([2,4,7,1,3,8,9]));
+
+
+
