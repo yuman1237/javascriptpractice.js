@@ -1,7 +1,7 @@
-y=[1,2,3,4];
+// y=[1,2,3,4];
 
-console.log(...y);
-console.log(y);
+// console.log(...y);
+// console.log(y);
 
 
 
@@ -17,11 +17,11 @@ console.log(y);
 //     createQuote("eat your vegetables!", logQuote); 
 
 
-    // var callback = function() {
-    //         console.log("Hello World!");
-    //     }
+//     var callback = function() {
+//             console.log("Hello World!");
+//         }
         
-    //     setTimeout(callback, 1000);
+//         setTimeout(callback, 1000);
 
 //         var array1 = ['a', 'b', 'c'];
 //         array1.forEach(function(element) {
@@ -86,28 +86,156 @@ console.log(y);
 
 // console.log(calc(6,5,sub));
 
-const posts = [{ title: 'Post one' , body:'This is post one' }];
+// const posts = [{ title: 'Post one' , body:'This is post one' }];
 
-console.log(posts);
+// console.log(posts);
 
-var createPost=(post)=>{
-     posts.push(post);
-     return posts;
+// var createPost=(post)=>{
+//      posts.push(post);
+//      return posts;
+
+// }
+// setTimeout(createPost, 2000);
+
+
+// var getPost=()=>{
+//     return posts.pop();
+// }
+// setTimeout(getPost, 1000);
+
+
+// console.log(createPost({ title: 'Post one' , body:'This is post one' }));
+// console.log(createPost({ title: 'Post one' , body:'This is post one' }));
+
+// console.log(createPost({ title: 'Post one' , body:'This is post one' }));
+
+// console.log(getPost({ title: 'Post one' , body:'This is post one' }));
+
+var arr123 = [1, 2, 3, 4, 5, 6, 5, 5, 5, 1, 2, 2, 10, 10, 12, 10, 10, 1, 1, 1, 10];
+
+var filter10=(arr)=>{
+    let  arr1=[];
+    
+   for(let i=0;i<arr.length;i++)
+     {if(arr[i]!=10)
+      arr1.push(arr[i]);}
+
+  
+ return arr1;
+}
+
+var filter5=(arr)=>{
+ 
+       let arr1=[];
+
+       for(let i=0;i<arr.length;i++)
+       {if(arr[i]!=5)
+        arr1.push(arr[i]);}
+  
+
+  return arr1;
+}
+
+var filter=(arr,callback)=>{
+if(callback==filter10)
+ return filter10(arr);
+
+ else
+ return filter5(arr);
 
 }
-setTimeout(createPost, 2000);
+
+// console.log(filter10(arr123));
+// console.log(arr123);
+
+// Promise                  
+// A Promise structure has 2 parts
+//First part
+//create the Promise and define the success/
+
+// let promise1 = new Promise( (resolve, reject) => {
+
+//     let dataReceivedSuccessfully = false;
+//     if (!dataReceivedSuccessfully)
+//       resolve('Data Available!');
+//     if (dataReceivedSuccessfully)
+//       reject('Data Corrupted!');
+//     })
+    
+//     //Second part
+//     //define the actions for when the conditions are fulfilled
+    
+//       promise1.then( (message) => {
+//        console.log(message);
+//        }).catch( (message) => {
+//           console.log(message);
+//     })
 
 
-var getPost=()=>{
-    return posts.pop();
+// let s="Hello";
+
+// let hello=(x)=>{
+   
+//    return new Promise((reslove,reject)=>{
+//           if(x=="Hello")
+//            reslove(x+" World!");
+//            else
+//             reject("Bye!");
+//    })
+// }
+
+
+// hello(s).then((res)=>{
+//        console.log(res);
+//  }) .catch((err)=>{
+//      console.log(err);
+//  })
+
+
+let erro=(x)=>{
+    return new Promise((resolve,reject)=>{
+         setTimeout(()=>{
+             
+             if(x==false)
+             {
+                resolve("No error!");
+             }
+             else{
+                 reject("Error occured!");
+             }
+         },1000);
+    })
 }
-setTimeout(getPost, 1000);
 
 
-console.log(createPost({ title: 'Post one' , body:'This is post one' }));
-console.log(createPost({ title: 'Post one' , body:'This is post one' }));
+erro(false)
+.then(res=> {console.log(res)})
+.catch(err=>{console.log(err)});
 
-console.log(createPost({ title: 'Post one' , body:'This is post one' }));
 
-console.log(getPost({ title: 'Post one' , body:'This is post one' }));
+
+
+
+var fs = require("fs");
+
+function readFile(a) {
+  return new Promise(function(resolve, reject) {
+    fs.readFile(a,(err, data) => {
+    
+      if (err) {
+        reject("No file found");
+      } else {
+        resolve(data.toString()); 
+      }
+    });
+  });
+}
+
+readFile("helper.txt")
+  .then(result => {
+    console.log(result);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
