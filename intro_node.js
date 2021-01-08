@@ -57,54 +57,195 @@
 //     console.log(res);
 // });
 
-const fs =require('fs')
+// const fs =require('fs')
 
-let fileindex=(pathtofile,index)=>{
+// let fileindex=(pathtofile,index)=>{
   
-  return new Promise((resolve,reject)=>{
+//   return new Promise((resolve,reject)=>{
 
-        fs.readdir(pathtofile,(err,files)=>{
-                if(err)
-                {
-                    reject("Error occured while fetching files from Directory");
-                }
-                else
-                {
-                    var name="",contstring="";
-                  for(let i=0;i<files.length;i++)
-                  {
-                      if(i==index)
-                      {  name=files[i];
-                          fs.readFile(files[i],(err,content)=>{
+//         fs.readdir(pathtofile,(err,files)=>{
+//                 if(err)
+//                 {
+//                     reject("Error occured while fetching files from Directory");
+//                 }
+//                 else
+//                 {
+//                     var name="",contstring="";
+//                   for(let i=0;i<files.length;i++)
+//                   {
+//                       if(i==index)
+//                       {  name=files[i];
+//                           fs.readFile(files[i],(err,content)=>{
 
-                              if(err)
-                              {
-                                   reject("Error occured while fetching files from Directory");
-                              }
-                              else{
-                                   contstring = content.toString();
-                              }
-                          })
-                      }
-                  }
-                  let obj={
-                      data:name,
-                      filename:contstring
-                  }
-                  resolve(obj);
+//                               if(err)
+//                               {
+//                                    reject("Error occured while fetching files from Directory");
+//                               }
+//                               else{
+//                                    contstring = content.toString();
+//                               }
+//                           })
+//                       }
+//                   }
+//                   let obj={
+//                       data:name,
+//                       filename:contstring
+//                   }
+//                   resolve(obj);
                   
-                }
+//                 }
 
-        })        
+//         })        
 
-  })
+//   })
 
+// }
+
+//  fileindex("./",2).then((res)=>{
+
+//     console.log(res);
+// }).catch((err)=>{
+    
+//     console.log(err);
+// })
+
+// let count= " this is me my first report is there";
+//  let f=0;
+
+//  for(let i=0;i<count.length;i++){
+//      if(count[i]=='t')
+//        f++;
+//  }
+
+//  console.log(f);
+
+const walk = (path) => {
+    return new Promise(async (resolve, reject) => {
+        fs.readdir(path, { withFileTypes: true }, (error, files) => {
+            if (error) {
+                reject("Error");
+            }
+            resolve(
+                files.map(async (file) => {
+                    if (file.isDirectory()) {
+                        return await walk(path + `/${file.name}`);
+                    } else {
+                        return file.name;
+                    }
+                })
+            );
+        });
+    });
+};
+
+let readfile=(pathtofile)=>{
+    
+    return new Promise((resolve,reject)=>{
+          fs.readdir(pathtofile,(err,files)=>{
+                 
+                 if(err)
+                 {
+                     reject("Error occured while reading directory");
+                 }
+                 else
+                 { let arr=[]
+ 
+                     files.forEach((el)=>{
+                            if(!el.includes('.'))
+                            {  
+                                fs.readdir(el,(err,file)=>{
+                                   if(err)
+                                   {
+                                       reject("Error occured while reading directory");
+                                   }
+                                   else{
+                                       arr.push(file);
+                                   }
+                                }) 
+ 
+                            }
+                            else{
+                                arr.push(el);
+                            }
+                     })
+                     
+                     resolve(arr);
+                     
+                 }
+          })
+    })
+ 
+ }
+
+ const path = require("path");
+
+ function directoryName(name){
+
+  return new Promise ( (resolve, reject) => {
+
+    fs.readdir(name, (error,file1)=> {
+
+      if(error)
+        reject(error);
+      else{  
+          
+          
+           var count1=0;count2=0;
+        for(var i=0; i<file1.length; i++){
+
+          if((file1[i].split("."))[1]){
+        
+            count1++;     
+          }
+         
+        }
+      
+        resolve(count1);
+      }
+        
+    });
+  });
 }
 
-fileindex("javascriptpractice.js",2).then((res)=>{
 
-    console.log(res);
-}).catch((err)=>{
-    
-    console.log(err);
-})
+const file = (name) => {
+  return new Promise ((resolve,reject) => {
+
+    fs.readdir(name, (error,file)=> {
+
+      if(error)
+
+        reject("Error occured while traversing directory");
+      else{
+
+           var count1=0;count2=0;
+
+        for(var i=0; i<file.length; i++){
+
+          if((file[i].split("."))[1]){
+        
+            count1++;     
+          }
+          else{
+            var newpath = path.join(name,file[i]);
+
+              directoryName(newpath).then(res=>{
+                count1 =count1 + res;
+              });
+              
+
+                count2++;
+                
+            
+          }
+        }
+         var obj={
+           countDir:count2,
+           countFile: count1
+         }
+
+        resolve(obj);
+      }
+    });
+  });
+}; 
